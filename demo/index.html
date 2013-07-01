@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Remarker.js</title>
+    <script src="../lib/acorn.js"></script>
+    <script src="../lib/walk.js"></script>
+    <script src="../remarker.js"></script>
+    <script id="content">
+    	/*
+    	@Benchmark({
+			"option1": "value1",
+			"option2": "value2"
+    	})
+    	*/
+    	function benchmark() {
+            console.log("hi");
+            // @Override
+            window.performance.now();
+    	}
+
+        var Util = {
+            // @Callback
+            trim: function() {
+                console.log("ok");
+                return true;
+            },
+
+            split: {
+                string: {
+                    //@Info
+                    utf8: function(str, str1) {
+                        //@Override (Invalid!)
+                        var str1 = function() {
+
+                        }
+                    },
+                    ascii: function() {
+                        
+                    }
+                },
+                integer : {
+                    utf8: function() {
+
+                    }
+                }
+            }
+        };
+
+        /* @Instrument({
+            "before": "validate"
+        })
+        */
+        Util.reverse = function(arg1, arg2) {
+            console.log("hi");
+        };
+
+        function toast(msg) {
+            console.log(msg);
+        }
+
+        //@Info
+        toast("hi");
+    </script>
+    
+    <script id="test">
+        var obj = {
+            fn1: function() {
+                console.log("ok");
+            }
+        }
+        function validate() {
+            console.log(arguments);
+            args = Array.prototype.slice.call(arguments);
+            var isValid = true;
+            args.forEach(function(arg) {
+                if (typeof arg === "undefined") {
+                    isValid = false;
+                }
+            });
+            return isValid;
+        }
+    </script>
+    
+    <script>
+        var source = document.getElementById('content').innerHTML;
+    	var App = {
+            AnnotationProcessors: {
+                Info: function(annotation) {
+                    console.log("Info Annotation");
+                    console.log(annotation);
+                }
+            }
+        };
+    	Remarker.process(source, App.AnnotationProcessors);
+
+    </script>
+</head>
+</html>
+
